@@ -52,7 +52,7 @@ function Lookingfordriver({ rider }) {
                 </div>
           
                 {/* Fare */}
-                <div className="border-t border-b flex flex-row gap-2 border-t-gray-300 border-b-gray-300 px-5 py-5">
+                <div className="border-t flex flex-row gap-2 border-t-gray-300 b px-5 py-5">
                    <div className=" ">
                      <GiTakeMyMoney className="text-4xl mt-2" />
                   </div>

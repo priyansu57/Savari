@@ -9,7 +9,8 @@ import {
 
 const containerStyle = {
   width: "100%",
-  height: "700px",
+  height: "680px",
+  borderRadius: "15px",
 };
 
 // Example icons (you can use PNG/SVG links too)

@@ -40,8 +40,8 @@ function FinishRidePanel({setFinishRidePopPanel , finishRidePanel}) {
 
     return (
         <>
-           <div className="w-[26rem] h-[90%]  bg-white shadow-2xl rounded-2xl p-4 overflow-hidden ">
-                <div className='flex justify-center items-center '>
+           <div className="w-[26rem] sm:h-[70%] md:h-[80%]  bg-white shadow-2xl rounded-2xl p-4 overflow-hidden ">
+                <div className='flex justify-center sm:mt-8 md:mt-0 items-center '>
                 <p> <RiArrowDownWideFill className='text-3xl cursor-pointer' onClick={() => setFinishRidePopPanel(!finishRidePanel)} /></p>
                 </div>
                 <p className="text-3xl font-semibold mb-4 ml-2 mt-6">Finish this Ride  </p>

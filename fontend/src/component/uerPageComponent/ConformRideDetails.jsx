@@ -16,18 +16,18 @@ function ConformRideDetails({ rider }) {
     //  }
 
   return (
-    <div className="w-full h-[90%] mt-4 mr-2  bg-white shadow-lg rounded-2xl p-2 overflow-hidden ">
+    <div className="w-full h-auto mt-4 mr-2  bg-white shadow-lg rounded-2xl p-2 ">
             <p className="text-3xl font-semibold mb-4 ml-4 mt-2">Confirm your Ride </p>
       {/* Car Image */}
         <div className="flex justify-center  relative">
             {/* Oval Background */}
-            <div className="absolute top-4 w-52 h-34 bg-blue-300/50 rounded-full blur-sm "></div>
-             <div className="absolute top-10 w-38 h-24 bg-blue-400/60 rounded-full blur-sm "></div>
+            <div className="absolute top-4 w-52 h-16 bg-blue-300/70 rounded-full blur-sm "></div>
+             <div className="absolute top-10 w-38 h-8 bg-blue-400/80 rounded-full blur-sm "></div>
             {/* Car Image */}
             <img
                 src={rideVehiclOption.img}
                 alt="Car"
-                className="relative w-40 h-40 object-contain "
+                className="relative w-20 h-20 object-contain "
             />
         </div>
 

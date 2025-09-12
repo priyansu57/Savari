@@ -89,7 +89,7 @@ function RideForm({ setSelectVehicle }) {
   return (
    
         <form onSubmit={handleSubmit}>
-            <div className="flex flex-col justify-center rounded-2xl border border-gray-200 m-auto bg-gray-50 h-auto w-[26rem] p-6 gap-6 shadow-md">
+            <div className="flex z[-20px] flex-col justify-center rounded-2xl border border-gray-200 m-auto bg-gray-50 h-auto w-[26rem] p-6 gap-6 shadow-md">
                 <p className="font-semibold text-3xl  text-gray-800">Ride with Savari</p>
 
                 {/* Pickup */}

@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 import DriverEarnCard from '../../component/DriverComponent/DriverEarnCard'
 import { data, NavLink } from 'react-router-dom'
 import { SiHomeassistantcommunitystore } from 'react-icons/si'
-import { FaCar } from 'react-icons/fa'
+import { FaBars, FaCar, FaTimes } from 'react-icons/fa'
 import logo from "../../assets/savari-captain-black.png"
 import UserShow from '../UserComponent/userShow'
 import Button from '../../component/uerPageComponent/Button'
@@ -24,6 +24,7 @@ function CaptianHome() {
   const ridePopPanelRef = useRef(null);
   const ConformRidePopPanelRef = useRef(null);
   const { sendMessage , socket } = UseSocketContext();
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
           // Fetch initial data or perform setup
@@ -107,46 +108,98 @@ function CaptianHome() {
 
     return (
         <>
-            <header>
-                <div className='w-screen h-18 bg-gray-100 border-b-4 border-b-gray-200 hidden md:flex justify-between items-center  mr-4'>
-                    <div className='  flex justify-center items-center gap-20 h-24'>
-                        <div className='h-2 w-28 ml-8 mt-[-93px]' >
-                            <img src={logo} alt="Savari" />
-                        </div>
-                        <NavLink
-                            to="/captain-home"
-                            className={({ isActive }) =>
-                                `flex justify-center items-center gap-2 h-18 border-b-4 transition-colors ${
-                                isActive ? "border-black" : "border-transparent"
-                                }`
-                            }
-                            >
-                            <SiHomeassistantcommunitystore className="h-14 w-6" />
-                            <span className="font-medium">Home</span>
-                        </NavLink>
+             <header className="w-full h-20 bg-gray-100 border-b-4 border-b-gray-200 fixed top-0 left-0 z-50">
+      <div className="flex justify-between items-center px-2 md:px-6  ">
+        {/* Logo */}
+        <div className="flex items-center ">
+          <img
+            src={logo}
+            alt="Savari"
+            onClick={() => navigate("/")}
+            className="h-22 w-22  cursor-pointer"
+          />
+        </div>
 
-                        <NavLink
-                            to="/captain-riding"
-                            className={({ isActive }) =>
-                                `flex justify-center items-center gap-2 h-18 border-b-4 transition-colors ${
-                                isActive ? "border-black" : "border-transparent"
-                                }`
-                            }
-                            >
-                            <FaCar className="h-14 w-6" />
-                            <span className="font-medium">Captain Ride</span>
-                        </NavLink>
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center gap-8">
+          <NavLink
+            to="/captain-home"
+            className={({ isActive }) =>
+              `h-18 flex items-center gap-2 border-b-4 transition-colors ${
+                isActive ? "border-black" : "border-transparent"
+              }`
+            }
+          >
+            <SiHomeassistantcommunitystore className="h-6 w-6" />
+            <span className="font-medium">Home</span>
+          </NavLink>
 
-                    </div>
+          <NavLink
+            to="/captain-riding"
+            className={({ isActive }) =>
+              ` h-17 flex items-center gap-2 border-b-4 transition-colors ${
+                isActive ? "border-black" : "border-transparent"
+              }`
+            }
+          >
+            <FaCar className="h-6 w-6" />
+            <span className="font-medium">Ride</span>
+          </NavLink>
+        </nav>
 
-                    <div className='flex justify-center items-center gap-4 mr-14 ' >
-                          <UserShow text={captain && captain?.fullname?.firstname ? captain.fullname.firstname : "Captain"} user={captain} />
-                          <Button text={"Logout"} handleLogout={handleLogout}  />
-                          {/* <User text={user ? user.fullname.firstname : "user"}   /> */}
-                    </div>
-                </div>
-            </header>
-            <div className='h-[90vh] w-screen p-6 pb-0 '>
+        {/* User + Logout (Desktop) */}
+        <div className="hidden md:flex items-center gap-4">
+          <UserShow text={captain ? captain.fullname.firstname : "captain"} captain={captain} />
+          <Button text={"Logout"} handleLogout={handleLogout} />
+        </div>
+
+        {/* Mobile Hamburger */}
+        <button
+          className="md:hidden text-2xl"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {isOpen ? <FaTimes /> : <FaBars />}
+        </button>
+      </div>
+
+      {/* Mobile Menu (fixed below header, above RideForm) */}
+      {isOpen && (
+        <div className="md:hidden flex flex-col gap-4 px-4 py-3 bg-gray-50 border-t fixed top-[60px] left-0 w-full z-40 shadow-lg">
+          <NavLink
+            to="/captain-home"
+            className={({ isActive }) =>
+              `  flex items-center gap-2  ${
+                isActive ? "text-black font-semibold" : "text-gray-600"
+              }`
+            }
+            onClick={() => setIsOpen(false)}
+          >
+            <SiHomeassistantcommunitystore className="h-5 w-5" />
+            Home
+          </NavLink>
+
+          <NavLink
+            to="/captain-riding"
+            className={({ isActive }) =>
+              ` flex items-center gap-2  ${
+                isActive ? "text-black font-semibold" : "text-gray-600"
+              }`
+            }
+            onClick={() => setIsOpen(false)}
+          >
+            <FaCar className="h-5 w-5" />
+            Ride
+          </NavLink>
+
+          {/* User + Logout */}
+          <div className="flex items-center justify-between">
+            <UserShow text={captain ? captain.fullname.firstname : "captain"} captain={captain} />
+            <Button text={"Logout"} handleLogout={handleLogout} />
+          </div>
+        </div>
+      )}
+    </header>
+            <div className='h-[90vh] mt-18 w-screen p-6 pb-0 '>
                 <LiveTracking height={"88vh"} />
                 <div className='text-center flex justify-center items-center'>
                   <DriverEarnCard />  

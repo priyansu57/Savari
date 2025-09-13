@@ -16,7 +16,7 @@ const rideRoutes = require("./routes/ride.routes.js");
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cors({
-    origin:"https://savari-1.onrender.com",
+    origin:"https://savari-2.onrender.com",
     credentials:true
 }));
 

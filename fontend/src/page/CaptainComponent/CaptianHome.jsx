@@ -97,6 +97,8 @@ function CaptianHome() {
      navigate("/captain-logout")
   }
 
+  
+
   async function confirmRide(){ 
     console.log("conform ride function called");
      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/confirm-ride` , { rideId: newRideData._id } , {

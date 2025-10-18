@@ -18,6 +18,7 @@ import Page from './page/PageComponent/Page'
 import Ride from './component/Rider/Ride'
 import CaptainLogout from './page/CaptainComponent/CapatinLogout'
 import Captainriding from './component/DriverComponent/Captainriding'
+import Error from './Error/Error'
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
             <Route path="/home" element={<UserProtectedWrapper> <Home /> </UserProtectedWrapper> } />
             <Route path="/users/logout" element={<UserProtectedWrapper> <UserLogout /> </UserProtectedWrapper> } />
             <Route path='/captain-home' element={<CaptainProtectWrapper> <CaptianHome /> </CaptainProtectWrapper>} />
+            <Route path='*' element={<Error />} />
        </Routes>
     </>
   )

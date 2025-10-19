@@ -14,13 +14,15 @@ function ConfirmRidepopup({setConformRidePopPanel}) {
     const {socket} = UseSocketContext();
     const [getOtp , setGetOtp]=useState("");
     const [otpError , setOtpError]=useState(false);
+    const [verifying, setVerifying] = useState(false)
 
     const handleSubmit  = async (e) => {
        e.preventDefault();
          setGetOtp(getOtp);
             setGetOtp("");
 
-         try {   
+         try {
+            setVerifying(true);
 
             const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/verify-otp`, {
                 otp: getOtp , rideId: newRideData._id
@@ -33,10 +35,13 @@ function ConfirmRidepopup({setConformRidePopPanel}) {
             console.log("OTP verification response:", response.data);
             if(response.data.message === "OTP verified successfully"){
                 setOtpError(false);
+                setVerifying(false);
             }else{
                 setOtpError(true);
+                setVerifying(false);
                 return;
             }
+
             
             socket.on("ride-started", (data) => {
                 
@@ -142,8 +147,28 @@ function ConfirmRidepopup({setConformRidePopPanel}) {
                                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-600 focus:outline-none"
                                 onChange={(e) => {setGetOtp(e.target.value); setOtpError(false);}} />
                             { otpError && <p className='text-red-500'>Please enter valid otp</p> }
-                            <button type='submit'  className="text-xl rounded-2xl bg-green-600 hover:bg-green-700 text-white cursor-pointer  w-full h-10  " onClick={handleSubmit}>Confirm</button>
-                            
+                            <button
+                                type="submit"
+                                disabled={verifying}
+                                className={`text-xl rounded-2xl w-full h-10 text-white cursor-pointer transition-all duration-200 ${
+                                    verifying
+                                    ? "bg-gray-500 cursor-not-allowed"
+                                    : "bg-green-600 hover:bg-green-700"
+                                }`}
+                                >
+                                {verifying ? (
+                                    <span className="flex justify-center items-center gap-2">
+                                    Verifying
+                                    <span className="flex gap-1">
+                                        <span className="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+                                        <span className="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+                                        <span className="w-2 h-2 bg-white rounded-full animate-bounce"></span>
+                                    </span>
+                                    </span>
+                                ) : (
+                                    "Confirm"
+                                )}
+                            </button>
                         </div>
                     </form>
                     <div className="px-2  flex flex-col justify-center items-center   text-center " >

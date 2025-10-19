@@ -11,7 +11,7 @@ router.post("/register" , [
     body("vehicle.color").isString().withMessage("Vehicle color must be a string"),
     body("vehicle.plate").isString().withMessage("Vehicle plate must be a string"), 
     body("vehicle.capacity").isInt({min:1}).withMessage("Vehicle capacity must be at least 1"),
-    body("vehicle.vehicleType").isIn(['car' , 'motorcycle' , 'auto']).withMessage("Vehicle type must be either car, motorcycle or auto"),
+    body("vehicle.vehicleType").isIn(['car' , 'bike' , 'auto']).withMessage("Vehicle type must be either car, bike or auto"),
 ] , captainController.registerCaptain);
 
 router.post("/login" , [

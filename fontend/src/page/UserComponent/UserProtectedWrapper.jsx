@@ -97,7 +97,15 @@ function UserProtectedWrapper({ children }) {
   }, [navigate, setUser]);
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return <div className="flex justify-center items-center h-screen bg-black">
+      <div className="flex flex-col items-center space-y-4">
+        {/* Spinner */}
+        <div className="w-12 h-12 border-4 border-gray-600 border-t-white rounded-full animate-spin"></div>
+        <p className="text-white font-medium text-lg tracking-wide">
+          Loading, please wait...
+        </p>
+      </div>
+    </div>
   }
 
   return <>{children}</>;

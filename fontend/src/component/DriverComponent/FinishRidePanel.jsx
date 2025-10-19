@@ -14,34 +14,77 @@ function FinishRidePanel({setFinishRidePopPanel , finishRidePanel}) {
      const {setFishRideOtp ,navigate ,  newRideData ,setNewRideData} = UseCaptaionContext();
      const {socket} = UseSocketContext();
 
-    const handleFinishRide = async () => {
-        console.log("Finish Ride Clicked");
+    // const handleFinishRide = async () => {
+    //     console.log("Finish Ride Clicked");
         
-       const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/finish-ride`, {
-        rideId: newRideData._id
-       }, {
-        headers: {  
-            Authorization: `Bearer ${localStorage.getItem("captainToken")}`
+    //    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/finish-ride`, {
+    //     rideId: newRideData._id
+    //    }, {
+    //     headers: {  
+    //         Authorization: `Bearer ${localStorage.getItem("captainToken")}`
+    //     }
+    //    });
+
+    //    console.log("Finish ride response:", response.data);
+
+    //    socket.on("ride-completed", (data) => {
+    //         if (data) {
+    //             navigate("/captain-home") ;
+    //            setNewRideData({});
+    //            toast.success("Ride finished successfully!");
+    //            console.log("Ride completed data:", data);
+    //         } else {
+    //             console.error("Error finishing ride");
+    //         }       
+    //    });
+
+    // }
+
+    const [loading, setLoading] = useState(false) // ✅ new loading state
+
+  const handleFinishRide = async () => {
+    try {
+      setLoading(true) // show loader
+
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/rides/finish-ride`,
+        { rideId: newRideData._id },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("captainToken")}`,
+          },
         }
-       });
+      )
 
-       console.log("Finish ride response:", response.data);
+      console.log("Finish ride response:", response.data)
 
-       socket.on("ride-completed", (data) => {
-            if (data) {
-                navigate("/captain-home") ;
-               setNewRideData({});
-               toast.success("Ride finished successfully!");
-               console.log("Ride completed data:", data);
-            } else {
-                console.error("Error finishing ride");
-            }       
-       });
-
+      socket.on("ride-completed", (data) => {
+        setLoading(false) // hide loader
+        if (data) {
+          navigate("/captain-home")
+          setNewRideData({})
+          toast.success("Ride finished successfully!")
+        } else {
+          console.error("Error finishing ride")
+          toast.error("Something went wrong while finishing the ride")
+        }
+      })
+    } catch (error) {
+      console.error(error)
+      toast.error("Failed to finish ride. Try again.")
+      setLoading(false)
     }
+  }
 
     return (
         <>
+             {/* ✅ Transparent black overlay loader */}
+            {loading && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                <div className="w-14 h-14 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+                </div>
+            )}
+
            <div className="w-[26rem] sm:h-[70%] md:h-[80%]  bg-white shadow-2xl rounded-2xl p-4 overflow-hidden ">
                 <div className='flex justify-center sm:mt-8 md:mt-0 items-center '>
                 <p> <RiArrowDownWideFill className='text-3xl cursor-pointer' onClick={() => setFinishRidePopPanel(!finishRidePanel)} /></p>

@@ -26,7 +26,7 @@ function UserContext({children}) {
     //ConformRideDetail
     const [conformRidePanel , setConformRidePanel] = useState(false);
     const [rideVehiclOption , setRideVehicleOption] =useState({
-      name :"Savari Go"
+      name :"Car"
     });
 
      //user payment method

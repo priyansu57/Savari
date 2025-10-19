@@ -19,13 +19,16 @@ import Ride from './component/Rider/Ride'
 import CaptainLogout from './page/CaptainComponent/CapatinLogout'
 import Captainriding from './component/DriverComponent/Captainriding'
 import Error from './Error/Error'
-
+import { ToastContainer , Slide } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
+
+       <ToastContainer position="top-right" autoClose={2000} theme="colored"  />
        <Routes>
            <Route path='/' element={<Page />} />
            <Route path='/login' element={<UserLogin />} />

@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import logo from "../../assets/Sevari_black_log.png"
 import axios from 'axios';
 import { UseContext } from '../../contextApi/context';
+import { toast } from 'react-toastify';
 
 function UserLogin() {
 
@@ -12,33 +13,70 @@ function UserLogin() {
 
     const {user , setUser , navigate} = UseContext();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        // console.log("Email was : " + email + "\n" + "Password :" + password);
-         setUserData({
-            email:email,
-            password:password
-        });
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     // console.log("Email was : " + email + "\n" + "Password :" + password);
+    //      setUserData({
+    //         email:email,
+    //         password:password
+    //     });
 
-        setEmail("");
-        setPassword("");
+    //     setEmail("");
+    //     setPassword("");
         
-        const respone = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login` , {
-            email:email,
-            password:password
-        } , {withCredentials : true})
+    //     const respone = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login` , {
+    //         email:email,
+    //         password:password
+    //     } , {withCredentials : true})
         
-        if (respone.status === 200) {
-             const data = respone.data ;
-             setUser(data.user);
-             localStorage.setItem("userToken" , data.token);
-             console.log(data);
+    //     if (respone.status === 200) {
+    //          const data = respone.data ;
+    //          setUser(data.user);
+    //          localStorage.setItem("userToken" , data.token);
+    //          console.log(data);
              
-             navigate("/home");
-        }
+    //          navigate("/home");
+    //     }
 
-    };
+    // };
    
+    const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/users/login`,
+      {
+        email,
+        password,
+      },
+      { withCredentials: true }
+    );
+
+    if (response.status === 200) {
+      const data = response.data;
+      setUser(data.user);
+      localStorage.setItem("userToken", data.token);
+      toast.success("Login successful!");
+      navigate("/home");
+    }
+  } catch (error) {
+    console.error("Login Error:", error);
+
+    if (error.response) {
+      // Show backend message if available
+      toast.error(error.response.data.message || "Invalid credentials!");
+    } else if (error.request) {
+      toast.error("No response from server. Please try again later.");
+    } else {
+      toast.error("Something went wrong. Please try again.");
+    }
+  } finally {
+    // Clear input fields after attempt
+    setEmail("");
+    setPassword("");
+  }
+};
 
     return (
         <>

@@ -84,13 +84,15 @@ module.exports.getAutoCompleteSuggestions = async (input) => {
 // in that mongodb check captains within the km radius
 module.exports.getCaptainsInTheRadius = async (ltd , lng , radius , vehicleType) => {
 
-  // console.log("ltd , lng , radius , vehicleType"  , ltd , lng , radius , vehicleType);
+   console.log("ltd , lng , radius , vehicleType"  , ltd , lng , radius , vehicleType);
 
 
   const captain = await captainModel.find({
     "vehicle.vehicleType": vehicleType,
-    location: { $geoWithin: { $centerSphere: [ [ lng , ltd ] , radius / 6371 ] } }
+     location: { $geoWithin: { $centerSphere: [ [ lng , ltd ] , radius / 6371 ] } }
   });
+
+  console.log("Captains found: ", captain);
 
   return captain;
 }

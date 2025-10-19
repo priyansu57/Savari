@@ -366,6 +366,7 @@ import logo from "../../assets/Sevari_black_log.png"
 import { SiHomeassistantcommunitystore } from "react-icons/si";
 import { UseSocketContext } from '../../contextApi/Socket.context';
 import RideMap from '../LiveTracking/RideMap';
+import { toast } from 'react-toastify';
 
 function Ride() {
   const [isOpen, setIsOpen] = useState(false);
@@ -378,8 +379,9 @@ function Ride() {
   }
 
   socket.on("ride-completed", (data) => {
+     toast.success("Ride completed successfully!");
     console.log("Ride completed data:", data);
-    if (data && data.status === "completed") {
+    if (data) {
       navigate("/home");
       setRideDetails({});
       setrideConform(false);

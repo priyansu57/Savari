@@ -96,7 +96,27 @@ function DriverEarnCard() {
   const [visible, setVisible] = useState(true);
   const { captain } = UseCaptaionContext();
 
+  console.log("The data is captain : ",captain);
+  
+   let getvehicleType = captain && captain?.vehicle?.vehicleType ;
+
+   let vehicleLogo;
+   switch (getvehicleType) {
+    case "car":
+      vehicleLogo = "https://d1a3f4spazzrp4.cloudfront.net/car-types/haloProductImages/Hatchback.png";
+      break;
+    case "bike":
+      vehicleLogo = "https://d1a3f4spazzrp4.cloudfront.net/car-types/haloProductImages/v1.1/Uber_Moto_India1.png";
+      break;
+    case "auto":
+      vehicleLogo = "https://d1a3f4spazzrp4.cloudfront.net/car-types/haloProductImages/v1.1/Uber_Moto_India1.png";
+      break;
+    default:
+      vehicleLogo = "https://d1a3f4spazzrp4.cloudfront.net/car-types/haloProductImages/Hatchback.png";
+   }
+
   return (
+  
     <div className="w-full sm:w-[600px] md:w-[700px] max-w-[90%] mx-auto fixed bottom-4 left-1/2 -translate-x-1/2 bg-white rounded-2xl shadow-lg overflow-hidden">
 
       {/* Header */}
@@ -106,6 +126,7 @@ function DriverEarnCard() {
           className="flex items-center gap-3 cursor-pointer"
           onClick={() => setVisible(!visible)}
         >
+
           <img
             src="https://t4.ftcdn.net/jpg/04/31/64/75/360_F_431647519_usrbQ8Z983hTYe8zgA7t1XVc5fEtqcpa.jpg"
             alt="profile"
@@ -134,8 +155,8 @@ function DriverEarnCard() {
           <div className="absolute top-0 w-20 h-6 bg-blue-400/60 rounded-full blur-sm"></div> */}
 
           <img
-            src="https://d1a3f4spazzrp4.cloudfront.net/car-types/haloProductImages/Hatchback.png"
-            alt="Car"
+            src={vehicleLogo}
+            alt="vehicleType"
             className="relative w-16 h-16 sm:w-20 sm:h-20 object-contain"
           />
         </div>

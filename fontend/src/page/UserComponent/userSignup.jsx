@@ -5,6 +5,7 @@ import logo from "../../assets/Sevari_black_log.png"
 import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios"
 import { UseContext} from '../../contextApi/context';
+import { toast } from 'react-toastify';
 
 function UserSignup() {
 const [formData, setFormData] = useState({
@@ -25,31 +26,77 @@ const [formData, setFormData] = useState({
 
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log("User Signup Data:", formData);
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   console.log("User Signup Data:", formData);
   
 
-     const newUser = {
-      fullname:{
-            firstname:formData.firstName,
-            lastname:formData.lastName
-        },
-       email:formData.email,
-       password:formData.password,
-    };
+  //    const newUser = {
+  //     fullname:{
+  //           firstname:formData.firstName,
+  //           lastname:formData.lastName
+  //       },
+  //      email:formData.email,
+  //      password:formData.password,
+  //   };
 
-    const respone = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register` , newUser ,{withCredentials : true})
+  //   const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register` , newUser ,{withCredentials : true})
 
-    if(respone.status === 201){
-      const data = respone.data
+  //   console.log("User Signup Response from user:", response);
+  //   if(response.status === 201){
+  //     const data = response.data
        
-      setUser(data.user);
-       localStorage.setItem("userToken" , data.token);
-       navigate("/home")
-    }
+  //     setUser(data.user);
+  //      localStorage.setItem("userToken" , data.token);
+  //      navigate("/home")
+  //   }
 
+  // };
+
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  console.log("User Signup Data:", formData);
+
+  const newUser = {
+    fullname: {
+      firstname: formData.firstName,
+      lastname: formData.lastName,
+    },
+    email: formData.email,
+    password: formData.password,
   };
+
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/users/register`,
+      newUser,
+      { withCredentials: true }
+    );
+
+    console.log("User Signup Response:", response);
+
+    if (response.status === 201) {
+      const data = response.data;
+      setUser(data.user);
+      localStorage.setItem("userToken", data.token);
+      toast.success("Signup successful!");
+      navigate("/home");
+    }
+  } catch (error) {
+    console.error("Signup Error:", error);
+
+    if (error.response) {
+      // backend response (like 400, 401, etc.)
+      toast.error(error.response.data.message || "Something went wrong!");
+    } else if (error.request) {
+      // no response from backend
+      toast.error("No response from server. Please try again later.");
+    } else {
+      // any other error
+      toast.error("Unexpected error occurred.");
+    }
+  }
+};
 
     return (
         <>

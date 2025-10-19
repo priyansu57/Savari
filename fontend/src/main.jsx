@@ -9,6 +9,7 @@ import { SocketProvider } from './contextApi/Socket.context.jsx'
 
 
 createRoot(document.getElementById('root')).render(
+  
   <StrictMode>
     <SocketProvider>
       <BrowserRouter>

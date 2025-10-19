@@ -7,6 +7,7 @@ import { FaCar } from "react-icons/fa";
 import { GiRaceCar } from "react-icons/gi";
 import axios from 'axios';
 import { UseCaptaionContext } from '../../contextApi/captainContext';
+import { toast } from 'react-toastify';
 
 function CaptainSignup() {
 const [formData, setFormData] = useState({
@@ -29,46 +30,106 @@ const [formData, setFormData] = useState({
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
 
-    const payload = {
-          fullname:{
-             firstname: formData.firstName,
-             lastname: formData.lastName,
-          },
-          email: formData.email,
-          password: formData.password,
-          vehicle: {
-            color: formData.color,
-            plate: formData.plate,
-            capacity: formData.capacity,
-            vehicleType: formData.vehicleType,
-          },
-      };
+  //   const payload = {
+  //         fullname:{
+  //            firstname: formData.firstName,
+  //            lastname: formData.lastName,
+  //         },
+  //         email: formData.email,
+  //         password: formData.password,
+  //         vehicle: {
+  //           color: formData.color,
+  //           plate: formData.plate,
+  //           capacity: formData.capacity,
+  //           vehicleType: formData.vehicleType,
+  //         },
+  //     };
     
-    const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register` , payload  , {withCredentials: true} );
+  //   const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register` , payload  , {withCredentials: true} );
+
+  //   if (res.status === 201) {
+  //      const data = res.data;
+  //      console.log(data);
+  //      setCaptain(data.captain);
+  //      localStorage.setItem("captainToken" , data.captain);
+  //      navigate("/captain-home");
+  //   }
+
+  //   setFormData({
+  //   firstName: "",
+  //   lastName: "",
+  //   email: "",
+  //   password: "",
+  //   color:"",
+  //   plate:"",
+  //   capacity:"",
+  //   vehicleType:"",
+  // })
+
+  // };
+
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const payload = {
+    fullname: {
+      firstname: formData.firstName,
+      lastname: formData.lastName,
+    },
+    email: formData.email,
+    password: formData.password,
+    vehicle: {
+      color: formData.color,
+      plate: formData.plate,
+      capacity: formData.capacity,
+      vehicleType: formData.vehicleType,
+    },
+  };
+
+  try {
+    const res = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/captains/register`,
+      payload,
+      { withCredentials: true }
+    );
 
     if (res.status === 201) {
-       const data = res.data;
-       console.log(data);
-       setCaptain(data.captain);
-       localStorage.setItem("captainToken" , data.captain);
-       navigate("/captain-home");
+      const data = res.data;
+      console.log("Captain Registration Response:", data);
+
+      setCaptain(data.captain);
+      localStorage.setItem("captainToken", data.captainToken);
+
+      toast.success("Captain registered successfully!");
+      navigate("/captain-home");
     }
+  } catch (error) {
+    console.error("Captain Register Error:", error);
 
+    if (error.response) {
+      toast.error(error.response.data.message || "Registration failed!");
+    } else if (error.request) {
+      toast.error("No response from server. Please try again later.");
+    } else {
+      toast.error("Something went wrong. Please try again.");
+    }
+  } finally {
+    // Reset form fields after attempt
     setFormData({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    color:"",
-    plate:"",
-    capacity:"",
-    vehicleType:"",
-  })
-
-  };
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      color: "",
+      plate: "",
+      capacity: "",
+      vehicleType: "",
+    });
+  }
+};
 
     return (
         <>

@@ -164,7 +164,7 @@ module.exports.finishRide = async ({ rideId }) => {
         throw new Error("Ride not found or not in ongoing status");
     } 
 
-    console.log("Ride after finishing :" , ride);
+    // console.log("Ride after finishing :" , ride);
     
 
     return ride;

@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { UseCaptaionContext } from '../../contextApi/captainContext';
 import axios from 'axios';
 import { UseSocketContext } from '../../contextApi/Socket.context';
+import { toast } from 'react-toastify';
 
 function FinishRidePanel({setFinishRidePopPanel , finishRidePanel}) {
     // console.log("finish : " + setFinishRidePopPanel , finishRidePanel);
@@ -27,10 +28,11 @@ function FinishRidePanel({setFinishRidePopPanel , finishRidePanel}) {
        console.log("Finish ride response:", response.data);
 
        socket.on("ride-completed", (data) => {
-        console.log("Ride completed data:", data);
-            if (data && data.status === "completed") {
-                navigate("/captain-home");
+            if (data) {
+                navigate("/captain-home") ;
                setNewRideData({});
+               toast.success("Ride finished successfully!");
+               console.log("Ride completed data:", data);
             } else {
                 console.error("Error finishing ride");
             }       

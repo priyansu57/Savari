@@ -4,6 +4,7 @@ import captainLogo from "../../assets/test.png";
 import captainLoginBanner from "../../assets/captain_Login_banner.png";
 import axios from 'axios';
 import { UseCaptaionContext } from '../../contextApi/captainContext';
+import { toast } from 'react-toastify';
 
 // C:\Users\priya\Desktop\Uber\fontend\src\assets\Savari_captain_logo.png
 
@@ -15,23 +16,45 @@ function CaptainLogin() {
 
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        // console.log("Email was : " + email + "\n" + "Password :" + password);
-        setEmail("");
-        setPassword("");
+  e.preventDefault();
 
-        const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/login` , {email , password} , {withCredentials : true} );
+  try {
+    const res = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/captains/login`,
+      { email, password },
+      { withCredentials: true }
+    );
 
-        if ( res.status === 200) {
-            const data = res.data;
-            console.log(" Data form lgcp :" , data);
-            
-             setCaptain(data.captain);
-             localStorage.setItem("captainToken" , data.captaintoken);
-             navigate("/captain-home")
-        }
-        
-    };
+    if (res.status === 200) {
+      const data = res.data;
+      console.log("Data from Captain Login:", data);
+
+      setCaptain(data.captain);
+      localStorage.setItem("captainToken", data.captaintoken);
+
+      toast.success("Captain login successful!");
+      navigate("/captain-home");
+    }
+  } catch (error) {
+    console.error("Captain Login Error:", error);
+
+    if (error.response) {
+      // Backend sent an error (e.g., invalid password, user not found)
+      toast.error(error.response.data.message || "Login failed!");
+    } else if (error.request) {
+      // No response from the server
+      toast.error("No response from server. Please try again later.");
+    } else {
+      // Any other unexpected error
+      toast.error("Something went wrong. Please try again.");
+    }
+  } finally {
+    // Clear form fields after attempt
+    setEmail("");
+    setPassword("");
+  }
+};
+
     return (
         <>
          <div className='h-2 w-45 ml-4 mt-[-40px] mb-8' >

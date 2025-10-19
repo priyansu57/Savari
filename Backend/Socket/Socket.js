@@ -84,8 +84,11 @@ function intializeSocket(server) {
 };
 
 function sendMessageToSocketId(socketId ,messageObject) {
-//    console.log("Sending message to socketId:", socketId, "Message:", messageObject.event, "Data:", messageObject.data);
+    // console.log("Sending message to socketId:", socketId, "Message:", messageObject.event, "Data:", messageObject.data);
+    // console.log("sockeId: " , socketId , "message : " , messageObject);
+    
     if(io){
+        console.log("sockeId: " , socketId , "message : " , messageObject);
         io.to(socketId).emit(messageObject.event , messageObject.data);
     }else{
         console.log("Socket.io not initialized.");

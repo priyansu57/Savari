@@ -27,8 +27,8 @@ module.exports.createRide = async ( req , res) => {
                 const destinationCoordinates = await mapService.getAddressCoordinate(destination);
                 // console.log("Destination coordinates:", destinationCoordinates);
 
-                const captainInRadius = await mapService.getCaptainsInTheRadius( pickupCoordinates.ltd , pickupCoordinates.lng , 5 , vehicleType);
-                // console.log("Captains in radius:", captainInRadius);
+                const captainInRadius = await mapService.getCaptainsInTheRadius( pickupCoordinates.ltd , pickupCoordinates.lng , 10 , vehicleType);
+                 console.log("Captains in radius:", captainInRadius , "for vehicle type:", vehicleType);
                
                 const userRide = await rideSchema.findById(ride._id).populate("user");
                 userRide.otp = '';
@@ -154,7 +154,7 @@ module.exports.finishRide = async (req , res) => {
                 data: ride,
             });
 
-        return res.status(200).json({ message: "Ride finished successfully" });
+        return res.status(200).json({ message: "Ride finished successfully" , status: 200 });
     } catch (error) {
         console.error("Error finishing ride:", error);
         return res.status(500).json({ message: error.message });

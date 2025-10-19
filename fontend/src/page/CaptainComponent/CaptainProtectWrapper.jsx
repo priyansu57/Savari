@@ -90,15 +90,15 @@ function CaptainProtectWrapper({ children }) {
   }, [navigate, setCaptain]);
 
   if (isLoading) {
-    return <div className="flex justify-center items-center h-screen bg-black">
+    return <div className="flex justify-center items-center h-screen bg-white">
       <div className="flex flex-col items-center space-y-4">
         {/* Spinner */}
-        <div className="w-12 h-12 border-4 border-gray-600 border-t-white rounded-full animate-spin"></div>
-        <p className="text-white font-medium text-lg tracking-wide">
+        <div className="w-12 h-12 border-4 border-gray-200 border-t-black rounded-full animate-spin"></div>
+        <p className="text-black font-medium text-lg tracking-wide">
           Loading, please wait...
         </p>
       </div>
-    </div>
+    </div>;
   }
 
   return <>{children}</>;

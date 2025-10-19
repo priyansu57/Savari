@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React from 'react'
 import { UseContext } from '../../contextApi/context';
+import { motion } from "framer-motion";
 
  function UserLogout() {
 

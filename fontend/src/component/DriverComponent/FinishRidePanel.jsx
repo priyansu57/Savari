@@ -80,10 +80,11 @@ function FinishRidePanel({setFinishRidePopPanel , finishRidePanel}) {
         <>
              {/* ✅ Transparent black overlay loader */}
             {loading && (
-                <div className="fixed inset-0 bg-gray-300 bg-opacity-50 flex justify-center items-center z-50">
+                <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
                     <div className="w-14 h-14 border-4 border-black border-t-transparent rounded-full animate-spin"></div>
                 </div>
-            )}
+            )};
+
 
            <div className="w-[26rem] sm:h-[70%] md:h-[80%]  bg-white shadow-2xl rounded-2xl p-4 overflow-hidden ">
                 <div className='flex justify-center sm:mt-8 md:mt-0 items-center '>

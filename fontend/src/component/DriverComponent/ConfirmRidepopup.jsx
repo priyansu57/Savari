@@ -57,6 +57,7 @@ function ConfirmRidepopup({setConformRidePopPanel}) {
         } catch (error) {
             console.error("Error verifying OTP:", error);
             setOtpError(true);
+            setVerifying(false);
         }
     };
 
@@ -140,37 +141,48 @@ function ConfirmRidepopup({setConformRidePopPanel}) {
                     </div>
                     
                    
-                    <form  >
-                        <div className="px-2 py-8  flex flex-col justify-center items-center gap-4  text-center ">
-                            
-                            <input type="text" placeholder='Enter Otp...' value={getOtp} required
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-600 focus:outline-none"
-                                onChange={(e) => {setGetOtp(e.target.value); setOtpError(false);}} />
-                            { otpError && <p className='text-red-500'>Please enter valid otp</p> }
-                            <button
-                                type="submit"
-                                disabled={verifying}
-                                className={`text-xl rounded-2xl w-full h-10 text-white cursor-pointer transition-all duration-200 ${
-                                    verifying
-                                    ? "bg-gray-500 cursor-not-allowed"
-                                    : "bg-green-600 hover:bg-green-700"
-                                }`}
-                                >
-                                {verifying ? (
-                                    <span className="flex justify-center items-center gap-2">
-                                    Verifying
-                                    <span className="flex gap-1">
-                                        <span className="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:-0.3s]"></span>
-                                        <span className="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:-0.15s]"></span>
-                                        <span className="w-2 h-2 bg-white rounded-full animate-bounce"></span>
-                                    </span>
-                                    </span>
-                                ) : (
-                                    "Confirm"
-                                )}
-                            </button>
-                        </div>
-                    </form>
+                     {/* OTP Form */}
+        <form onSubmit={handleSubmit}>
+          <div className="px-2 py-8 flex flex-col justify-center items-center gap-4 text-center">
+            <input
+              type="text"
+              placeholder="Enter OTP..."
+              value={getOtp}
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-600 focus:outline-none"
+              onChange={(e) => {
+                setGetOtp(e.target.value)
+                setOtpError(false)
+              }}
+            />
+
+            {otpError && <p className="text-red-500">Please enter valid OTP</p>}
+
+            {/* ✅ Button with Verifying Loader */}
+            <button
+              type="submit"
+              disabled={verifying}
+              className={`text-xl rounded-2xl w-full h-10 text-white cursor-pointer transition-all duration-200 ${
+                verifying
+                  ? "bg-gray-500 cursor-not-allowed"
+                  : "bg-green-600 hover:bg-green-700"
+              }`}
+            >
+              {verifying ? (
+                <span className="flex justify-center items-center gap-2">
+                  Verifying
+                  <span className="flex gap-1">
+                    <span className="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+                    <span className="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+                    <span className="w-2 h-2 bg-white rounded-full animate-bounce"></span>
+                  </span>
+                </span>
+              ) : (
+                "Confirm"
+              )}
+            </button>
+          </div>
+        </form>
                     <div className="px-2  flex flex-col justify-center items-center   text-center " >
                         <button  type='button' className="text-xl cursor-pointer  bg-red-600 text-white hover:bg-red-700 w-full h-10 rounded-2xl " onClick={() => cancelRide()} >Cancel </button>
                     </div>

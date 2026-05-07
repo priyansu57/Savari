@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 
 function connectToDb() {
-    mongoose.connect(`${process.env.MONGODB_URL}/Savari`)
+    mongoose.connect(`${process.env.MONGODB_URL}`)
+    //mongoose.connect(`${process.env.DB_CONNECT}`)
         .then(() => {
             console.log("Connection Established !!!");
         })
